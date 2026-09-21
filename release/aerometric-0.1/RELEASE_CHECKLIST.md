@@ -17,6 +17,7 @@
 - [x] Community Model Library index contract, validator, CI check, and Studio on-demand loader
 - [x] Local Release 0.1 audit completed; see [RELEASE_AUDIT_0.1.md](RELEASE_AUDIT_0.1.md)
 - [x] Local Git source boundary and separate public-deployment gate prepared
+- [x] Source-only `main` pushed to GitHub with Quadrotor V3 excluded; source CI passed
 
 ## Required before a public GitHub release
 
@@ -24,6 +25,6 @@
 - [ ] Confirm the project name, repository owner, canonical URL, and copyright holder.
 - [ ] Add a redistributable preview image and model package only after licensing is confirmed.
 - [ ] Remove or replace `public/models/drone_v3.glb` before any public Studio deployment if redistribution rights cannot be confirmed.
-- [ ] Run the workflow in the actual GitHub repository and fix host-specific assumptions.
+- [x] Run source CI in the GitHub repository and check host-specific assumptions.
 
 Do not publish the current GLB, Blender source, textures, or renders as MIT-licensed software. Their asset license remains unresolved.

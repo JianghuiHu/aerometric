@@ -31,8 +31,12 @@ Profile capabilities are `partColors`, `partVisibility`, `rotorControl`, `gimbal
 11. **Vercel static-deployment risk:** Vite output is static and uses root-relative `/assets/...` URLs, suitable for a root-domain deployment. It has not been tested on an actual Vercel project. **The build copies `public/models/drone_v3.glb` into `dist/models/`, so deploying the current Studio would redistribute an asset whose license is not confirmed.** This blocks deployment regardless of the empty Community index.
 12. **Release decision:** Local freeze checks pass. Public Release 0.1 is **blocked** by the model/texture/preview redistribution rights, owner/canonical URL/copyright confirmation, and untested repository-hosted CI/deployment. The large shared Three.js chunk and independent JSON Schema-engine check are tracked as non-blocking follow-ups.
 
-No GitHub Release was created and no files were uploaded to an external repository.
+At the local freeze audit, no GitHub Release had been created and no files had been uploaded to an external repository. The subsequent source-only push is recorded below.
 
 ## Git source preparation after audit
 
-The repository root now has a release entry README, ignore rules for unlicensed local assets, and source-only CI checks including 20 asset-independent tests. A fresh checkout from the staged Git index, with no `drone_v3.glb`, passed `npm ci`, all 20 source tests, Release validation, and the production build. `npm run check:publish` is a separate, intentionally failing deployment gate until the built-in GLB has an explicit asset `LICENSE` and `asset-rights.json`. The source candidate is committed locally on `codex/release-0.1-prep`; the workspace has no Git remote. No source or model has been pushed.
+The repository root now has a release entry README, ignore rules for unlicensed local assets, and source-only CI checks including 20 asset-independent tests. A fresh checkout from the staged Git index, with no `drone_v3.glb`, passed `npm ci`, all 20 source tests, Release validation, and the production build. `npm run check:publish` remains a separate, intentionally failing deployment gate until the built-in GLB has an explicit asset `LICENSE` and `asset-rights.json`.
+
+## First GitHub source push
+
+The source-only `main` branch was pushed to `JianghuiHu/aerometric` as commit `fe3fbd7` using the repository-local Git identity. [GitHub Actions run 35588646422](https://github.com/JianghuiHu/aerometric/actions/runs/35588646422) passed `npm ci`, 20 source tests, Library validation, Release validation, and production build. The public-deployment gate was skipped on this push because it runs only on manual dispatch. The remote Community indexes both contain zero models. The only remote GLBs are the two small synthetic mapping fixtures; Quadrotor V3, Blender files, textures, user uploads, caches, and local secrets were not pushed. No GitHub Release or Studio deployment was created.
