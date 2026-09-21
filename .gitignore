@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.vite/
+*.log
+
+# Local model sources and review outputs have no confirmed redistribution license.
+/blender_drone/
+/无人机_Blender_Codex_MD文档包/
+/public/models/*.glb
+/release/aerometric-0.1/artifacts/blender-helper-smoke/

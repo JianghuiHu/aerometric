@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aerometric.dev/schema/aerometric-profile-0.1.schema.json",
+  "title": "AEROMETRIC Drone Profile 0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "version", "roles"],
+  "properties": {
+    "id": {"type": "string", "minLength": 1, "pattern": "^[a-z0-9][a-z0-9._-]+$"},
+    "version": {"type": "string", "pattern": "^0\\.1(?:\\.[0-9]+)?$"},
+    "label": {"type": "string", "minLength": 1},
+    "units": {"const": "meter"},
+    "forwardAxis": {"enum": ["+X", "-X", "+Z", "-Z"]},
+    "roles": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "array",
+        "minItems": 1,
+        "uniqueItems": true,
+        "items": {"type": "string", "minLength": 1}
+      }
+    },
+    "capabilities": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "partColors": {"type": "boolean"},
+        "partVisibility": {"type": "boolean"},
+        "rotorControl": {"type": "boolean"},
+        "gimbalControl": {"type": "boolean"},
+        "statusLights": {"type": "boolean"},
+        "statusField": {"type": "boolean"}
+      }
+    },
+    "metadata": {"type": "object"}
+  }
+}

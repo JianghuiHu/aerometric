@@ -1,0 +1,29 @@
+# AEROMETRIC 0.1 release checklist
+
+## Complete
+
+- [x] Model Standard 0.1
+- [x] DroneProfile JSON Schema
+- [x] Verified Quadrotor V3 Profile example
+- [x] CLI Validator with success and failure tests
+- [x] Installable `aerometric-model` Agent Skill
+- [x] Standalone AI Model Kit ZIP
+- [x] Contribution guide and CI workflow template
+- [x] MIT license for software and documentation
+- [x] Blender Helper 0.1 with semantic tagging, validation, Profile export, and GLB export
+- [x] Blender Helper smoke-tested against the current Quadrotor V3 `.blend`
+- [x] Web Validator 0.1 using the same validation rules as the CLI
+- [x] Third-party GLB Profile mapping, extras embedding, and contribution checklist
+- [x] Community Model Library index contract, validator, CI check, and Studio on-demand loader
+- [x] Local Release 0.1 audit completed; see [RELEASE_AUDIT_0.1.md](RELEASE_AUDIT_0.1.md)
+- [x] Local Git source boundary and separate public-deployment gate prepared
+
+## Required before a public GitHub release
+
+- [ ] Choose and record the Quadrotor V3 model and texture license.
+- [ ] Confirm the project name, repository owner, canonical URL, and copyright holder.
+- [ ] Add a redistributable preview image and model package only after licensing is confirmed.
+- [ ] Remove or replace `public/models/drone_v3.glb` before any public Studio deployment if redistribution rights cannot be confirmed.
+- [ ] Run the workflow in the actual GitHub repository and fix host-specific assumptions.
+
+Do not publish the current GLB, Blender source, textures, or renders as MIT-licensed software. Their asset license remains unresolved.

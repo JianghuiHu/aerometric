@@ -1,0 +1,47 @@
+{
+  "id": "community.mapping-smoke",
+  "version": "0.1.0",
+  "label": "Mapping Smoke",
+  "units": "meter",
+  "forwardAxis": "+Z",
+  "roles": {
+    "root": [
+      "MyDroneRoot"
+    ],
+    "body": [
+      "Fuselage"
+    ],
+    "rotor.frontLeft": [
+      "Prop_FL"
+    ],
+    "rotor.frontRight": [
+      "Prop_FR"
+    ],
+    "rotor.rearLeft": [
+      "Prop_RL"
+    ],
+    "rotor.rearRight": [
+      "Prop_RR"
+    ],
+    "gimbal.yaw": [
+      "Gimbal_Yaw"
+    ],
+    "gimbal.pitch": [
+      "Gimbal_Pitch"
+    ],
+    "camera": [
+      "Camera"
+    ]
+  },
+  "capabilities": {
+    "partColors": true,
+    "partVisibility": true,
+    "rotorControl": true,
+    "gimbalControl": true,
+    "statusLights": false,
+    "statusField": false
+  },
+  "metadata": {
+    "generator": "AEROMETRIC Studio Mapping 0.1"
+  }
+}

@@ -1,0 +1,33 @@
+name: AEROMETRIC source checks
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  source:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run test:source
+      - run: npm run validate:library
+      - run: npm run validate:release
+      - run: npm run build
+      - name: Model-dependent tests are pending asset rights
+        run: echo 'The full model regression suite is run locally; it requires the excluded Quadrotor V3 asset.'
+
+  public-deployment-gate:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm run check:publish

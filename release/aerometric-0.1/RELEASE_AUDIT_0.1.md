@@ -1,0 +1,38 @@
+# AEROMETRIC Release 0.1 local freeze audit
+
+Audit date: 2026-09-21 (Asia/Shanghai). Scope: local workspace and Vite preview. This is **not approval to publish**.
+
+## Contract and version check
+
+| Component | Version / contract | Result |
+| --- | --- | --- |
+| Studio package | `0.1.0` | Build and tests pass. The UI's `V3.2.1` is a product iteration label, not a Model Standard version. |
+| Model Standard | `0.1` | `docs/model-standard.md` defines levels, roles, extras, export. |
+| DroneProfile | `version: 0.1.0` | Schema title/id and Validator require 0.1.x; example and generated Profiles use 0.1.0. |
+| Community Library | `version: 0.1.0` | Index, Schema, runtime parser, and local gate agree on required fields. |
+| CLI Validator | package `0.1.0` | Uses the same Profile role and capability names as the schema. |
+| AI Model Skill | Release 0.1 | References the Model Standard and Profile contract. |
+| Blender Helper | `0.1.0` | Exports Profile version 0.1.0. |
+
+Profile capabilities are `partColors`, `partVisibility`, `rotorControl`, `gimbalControl`, `statusLights`, and `statusField`. Community cards derive their labels from a Profile; the Library index contains no second capability list. The Profile Schema parses as JSON and its example passes the runtime Validator. Independent Draft 2020-12 evaluation by a separate JSON Schema engine has not yet been run.
+
+## Required audit results
+
+1. **Production build:** `npm run build` passed. Vite transformed 77 modules; no build errors.
+2. **Tests:** Full local `npm test -- --run` passed, 58/58. The source-only subset passed 20/20 without the excluded model asset. Includes negative license-gate tests.
+3. **Initial resource path:** `dist/index.html` references the main JS and CSS and preloads the shared `three.module` chunk. Studio then requests `/models/drone_v3.glb`. The Community Library index is requested only when the model menu opens. Bloom is requested through a dynamic import after browser idle (or a short timeout). This is a dependency-path audit, not a timed waterfall measurement.
+4. **JS chunks (uncompressed / gzip):** main 176.88 / 51.10 KB; shared Three.js 552.10 / 140.09 KB; Bloom 19.84 / 4.82 KB; GLTFExporter 35.18 / 10.51 KB; GroundWorld 6.33 / 2.61 KB; SimplifyModifier 5.17 / 1.87 KB; image exporter 1.86 / 1.10 KB; RainLayer 1.21 / 0.70 KB. Three.js produces the >500 KB warning. Bloom no longer causes a 572 KB first-screen chunk.
+5. **Model Library:** `npm run validate:library` passed at version 0.1.0 with 0 public entries. This empty result is intentional while asset rights remain unresolved.
+6. **Profile Schema:** 0.1 Profile example passed `validateProfile` and GLB/sidecar CLI Level 1 validation. Model Library Schema and indexes declare version 0.1.0. Formal independent JSON Schema-engine conformance remains unverified.
+7. **License gate:** Local Library validator and CLI community-directory validator reject missing or empty `LICENSE`, missing/ambiguous metadata `license`, and `redistributable !== true`. CI calls the Library validator. Negative tests passed. A statement in metadata cannot itself prove legal ownership; manual rights review remains necessary.
+8. **i18n:** zh-CN and en-US each contain 130 keys, with no key missing from either locale.
+9. **GLB import:** Browser regression loaded a valid GLB, rejected a broken GLB without replacing the active session, and completed repeated model swaps with stable geometry/texture counts (181/16 before and after).
+10. **Exports:** `npm run verify:export` re-imported the exported GLB and confirmed current body/arm colors, hidden camera and landing gear, status-light emissive color, rotor and ripple animation, and scene-system exclusion. `npm run verify:image` passed 1920×1080 and 3840×2160 PNG, transparent PNG, and opaque JPG checks.
+11. **Vercel static-deployment risk:** Vite output is static and uses root-relative `/assets/...` URLs, suitable for a root-domain deployment. It has not been tested on an actual Vercel project. **The build copies `public/models/drone_v3.glb` into `dist/models/`, so deploying the current Studio would redistribute an asset whose license is not confirmed.** This blocks deployment regardless of the empty Community index.
+12. **Release decision:** Local freeze checks pass. Public Release 0.1 is **blocked** by the model/texture/preview redistribution rights, owner/canonical URL/copyright confirmation, and untested repository-hosted CI/deployment. The large shared Three.js chunk and independent JSON Schema-engine check are tracked as non-blocking follow-ups.
+
+No GitHub Release was created and no files were uploaded to an external repository.
+
+## Git source preparation after audit
+
+The repository root now has a release entry README, ignore rules for unlicensed local assets, and source-only CI checks including 20 asset-independent tests. A fresh checkout from the staged Git index, with no `drone_v3.glb`, passed `npm ci`, all 20 source tests, Release validation, and the production build. `npm run check:publish` is a separate, intentionally failing deployment gate until the built-in GLB has an explicit asset `LICENSE` and `asset-rights.json`. The source candidate is committed locally on `codex/release-0.1-prep`; the workspace has no Git remote. No source or model has been pushed.

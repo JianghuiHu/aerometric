@@ -1,0 +1,11 @@
+{
+  "name": "@aerometric/validator",
+  "version": "0.1.0",
+  "description": "CLI validator for AEROMETRIC GLB assets and DroneProfile mappings",
+  "type": "module",
+  "bin": {"aerometric-validator": "src/cli.mjs"},
+  "files": ["src", "README.md"],
+  "dependencies": {"three": "^0.179.1"},
+  "license": "MIT"
+}
+

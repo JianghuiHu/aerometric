@@ -1,0 +1,36 @@
+{
+  "name": "procedural-threejs-drone",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "verify:export": "node scripts/verify-current-glb-export.mjs",
+    "build:animated-glb": "node scripts/build-animated-glb.mjs",
+    "verify:image": "node scripts/verify-image-export.mjs",
+    "audit:v31": "node scripts/audit-v31.mjs",
+    "audit:v321": "node scripts/audit-v321.mjs",
+    "audit:flight": "node scripts/audit-flight-route.mjs",
+    "verify:mapping": "node scripts/verify-model-mapping.mjs",
+    "validate:release": "node release/aerometric-0.1/scripts/validate-package.mjs",
+    "check:publish": "node scripts/check-publish-ready.mjs",
+    "validate:library": "node release/aerometric-0.1/scripts/validate-model-library.mjs",
+    "validate:model": "node release/aerometric-0.1/validator/src/cli.mjs",
+    "build:ai-kit": "node release/aerometric-0.1/scripts/build-ai-kit.mjs",
+    "build:blender-helper": "node release/aerometric-0.1/scripts/build-blender-helper.mjs",
+    "build:web-validator": "vite build --config release/aerometric-0.1/web-validator/vite.config.js",
+    "preview:web-validator": "vite preview --config release/aerometric-0.1/web-validator/vite.config.js --port 4175",
+    "scan:model": "node scripts/scan-drone-glb.mjs",
+    "test": "node --test src/drone/*.test.js",
+    "test:source": "node --test src/drone/CommunityLicenseGate.test.js src/drone/CommunityModelLibrary.test.js src/drone/ModelProfileMapper.test.js src/drone/Phase3Architecture.test.js src/drone/PublishGate.test.js src/drone/V31Architecture.test.js src/drone/V321Architecture.test.js"
+  },
+  "dependencies": {
+    "@tabler/icons": "^3.46.0",
+    "three": "^0.179.1"
+  },
+  "devDependencies": {
+    "vite": "^7.1.3"
+  }
+}

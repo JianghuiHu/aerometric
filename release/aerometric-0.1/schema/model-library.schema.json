@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aerometric.dev/schema/model-library-0.1.json",
+  "title": "AEROMETRIC Community Model Library 0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "models"],
+  "properties": {
+    "version": {"const": "0.1.0"},
+    "models": {
+      "type": "array",
+      "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["id", "name", "author", "type", "compatibility", "model", "preview", "license", "redistributable"],
+    "properties": {
+      "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]+$"},
+      "name": {"type": "string", "minLength": 1},
+      "author": {"type": "string", "minLength": 1},
+      "type": {"type": "string", "minLength": 1},
+      "compatibility": {"type": "integer", "enum": [0, 1, 2]},
+      "model": {"type": "string", "pattern": "\\.glb$"},
+      "profile": {"type": "string", "pattern": "\\.json$"},
+      "preview": {"type": "string", "pattern": "\\.webp$"},
+      "license": {"type": "string", "minLength": 1},
+      "redistributable": {"const": true}
+    },
+    "allOf": [{"if": {"properties": {"compatibility": {"const": 1}}}, "then": {"required": ["profile"]}}]
+      }
+    }
+  }
+}

@@ -1,0 +1,46 @@
+name: Validate AEROMETRIC models
+
+on:
+  pull_request:
+    paths:
+      - 'models/**'
+      - 'schema/**'
+      - 'validator/**'
+
+jobs:
+  validate-index:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node scripts/validate-model-library.mjs
+
+  validate:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        model: ${{ fromJSON(needs.discover.outputs.models) }}
+    needs: [discover, validate-index]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: validator/package-lock.json
+      - run: npm ci
+        working-directory: validator
+      - run: node validator/src/cli.mjs "${{ matrix.model }}"
+
+  discover:
+    runs-on: ubuntu-latest
+    outputs:
+      models: ${{ steps.models.outputs.models }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: models
+        shell: bash
+        run: echo "models=$(find models -mindepth 1 -maxdepth 1 -type d ! -name '_*' -print | jq -R -s -c 'split("\n")[:-1]')" >> "$GITHUB_OUTPUT"

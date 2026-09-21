@@ -1,0 +1,15 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import * as THREE from 'three';
+import {GroundWorld} from '../environment/GroundWorld.js';
+import {DEFAULT_DRONE_CONFIG,migrateDroneConfig} from './DroneAppearanceConfig.js';
+import {readAerometricExtras,resolveRoleCandidates,validateDroneProfile} from './profile/DroneProfile.js';
+
+test('GroundWorld stays inside the V3.1 geometry and draw-call budgets',()=>{const world=new GroundWorld();const stats=world.getStats();assert.equal(stats.drawCalls,12);assert.equal(stats.buildings,48);assert.equal(stats.trees,72);assert.equal(stats.roads,8);assert.ok(stats.triangles<30000);assert.equal(world.root.getObjectByName('RoadGrid').isInstancedMesh,true);assert.equal(world.root.getObjectByName('SidewalkBlocks').isInstancedMesh,true);assert.equal(world.root.getObjectByName('RooftopCaps').isInstancedMesh,true);const surface=world.getSurfaceYAt(-2.5,-2.5);assert.ok(surface>world.root.position.y&&surface<world.root.position.y+.1);world.applyPreset('night',.4);assert.equal(world.windows.visible,true);world.dispose();});
+
+test('environment config separates transparent export from scene presets',()=>{assert.deepEqual(['solid','sky','rain','night'].includes(DEFAULT_DRONE_CONFIG.environment.mode),true);const migrated=migrateDroneConfig({environment:{mode:'transparent',color:'#fff',rainVisible:false}});assert.equal(migrated.environment.mode,'solid');assert.equal(migrated.environment.rainAmount,0);assert.equal('rainVisible' in migrated.environment,false);});
+
+test('DroneProfile validates and reads optional glTF extras',()=>{const profile=validateDroneProfile({id:'quad-v3',version:'1',roles:{body:['BODY_Main']}}),root=new THREE.Group(),body=new THREE.Group();body.name='BODY_Main';body.userData.aerometric={role:'body',profile:'quad-v3'};root.add(body);const extras=readAerometricExtras(root);assert.equal(extras.profile,'quad-v3');assert.equal(extras.roles.body[0],body);assert.deepEqual(resolveRoleCandidates('body',{profile,extras,fallback:['fallback']}),['BODY_Main']);});
+
+test('V3.1 UI uses Tabler icons, lazy environment modules and no marketing hero',()=>{const viewer=fs.readFileSync('src/viewer.js','utf8'),css=fs.readFileSync('src/viewer.css','utf8'),environment=fs.readFileSync('src/drone/scene/DroneEnvironmentController.js','utf8');assert.equal(viewer.includes("from './ui/UIIcon.js'"),true);assert.equal(viewer.includes('class="intro"'),false);assert.equal(viewer.includes('PHASE 3'),false);assert.equal(viewer.includes('透明模式'),false);assert.equal(viewer.includes('id="ground-visible"'),true);for(const id of ['environment-brightness','ground-intensity','rain-amount','fog'])assert.equal(viewer.includes(`'${id}'`),true);assert.equal(environment.includes("import('../../environment/GroundWorld.js')"),true);assert.equal(environment.includes("import('../../environment/RainLayer.js')"),true);assert.equal(environment.includes('document.documentElement.dataset'),false);assert.equal(css.includes('backdrop-filter:blur(var(--blur))'),true);assert.equal(css.includes('data-scene-tone'),false);});
