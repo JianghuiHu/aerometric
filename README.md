@@ -1,6 +1,6 @@
 # AEROMETRIC
 
-Open Drone 3D Configurator & Model Standard. This workspace is a **local Release 0.1 candidate**, not a public deployment.
+Open Drone 3D Configurator & Model Standard. This public repository contains the **Release 0.1 source candidate**; the Studio itself has not been deployed.
 
 - [Release 0.1 package](release/aerometric-0.1/README.md)
 - [AI Model Skill](release/aerometric-0.1/skills/aerometric-model/SKILL.md)

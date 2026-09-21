@@ -6,9 +6,9 @@ AEROMETRIC 0.1 defines a small, tool-independent contract for controllable drone
 
 ## Start here
 
-- Studio users: run the application from the repository root with `npm install` and `npm run dev`.
+- Studio users: run the application from the repository root with `npm ci` and `npm run dev`. A source-only clone has no built-in Quadrotor V3 asset; bring a GLB you have rights to use through the upload flow.
 - Model authors: read [Model Standard 0.1](docs/model-standard.md).
-- AI-assisted model authors: start with [AI_START_HERE.md](skills/AI_START_HERE.md).
+- AI-assisted model authors: start with [AI_START_HERE.md](skills/AI_START_HERE.md). To install the Codex skill, copy the entire [`aerometric-model`](skills/aerometric-model/) folder into your Codex skills directory (`$CODEX_HOME/skills`, normally `~/.codex/skills`), then start a new Codex task.
 - Integrators: validate a sidecar profile against [the JSON Schema](schema/aerometric-profile.schema.json) or run the [CLI Validator](validator/README.md).
 - Browser users: build or host the local-only [Web Validator](web-validator/README.md).
 - Third-party model authors: use Studio mapping and review the [mapping guide](docs/model-mapping.md).

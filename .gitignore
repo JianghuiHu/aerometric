@@ -2,6 +2,7 @@ node_modules/
 dist/
 .vite/
 *.log
+*.baiduyun.uploading.cfg
 
 # Local model sources and review outputs have no confirmed redistribution license.
 /blender_drone/

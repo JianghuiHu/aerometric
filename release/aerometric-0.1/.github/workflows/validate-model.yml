@@ -9,24 +9,24 @@ on:
 
 jobs:
   validate-index:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
       - run: node scripts/validate-model-library.mjs
 
   validate:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
         model: ${{ fromJSON(needs.discover.outputs.models) }}
     needs: [discover, validate-index]
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
@@ -36,11 +36,11 @@ jobs:
       - run: node validator/src/cli.mjs "${{ matrix.model }}"
 
   discover:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     outputs:
       models: ${{ steps.models.outputs.models }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - id: models
         shell: bash
         run: echo "models=$(find models -mindepth 1 -maxdepth 1 -type d ! -name '_*' -print | jq -R -s -c 'split("\n")[:-1]')" >> "$GITHUB_OUTPUT"
