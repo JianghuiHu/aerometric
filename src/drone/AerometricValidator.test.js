@@ -5,7 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import {validateModelPackage,validateProfile} from '../../release/aerometric-0.1/validator/src/index.mjs';
 
-test('AEROMETRIC CLI validator accepts the current GLB and Level 1 profile',async()=>{const report=await validateModelPackage('public/models/drone_v3.glb','release/aerometric-0.1/schema/examples/quadrotor-v3.aerometric.json');assert.equal(report.pass,true,JSON.stringify(report.errors));assert.equal(report.level,'1');assert.ok(report.metrics.meshes>0);assert.ok(report.metrics.triangles>0);});
+test('AEROMETRIC CLI validator accepts the current GLB and Level 1 profile',async()=>{const report=await validateModelPackage('public/models/quadrotor-v3/model.glb','release/aerometric-0.1/schema/examples/quadrotor-v3.aerometric.json');assert.equal(report.pass,true,JSON.stringify(report.errors));assert.equal(report.level,'1');assert.ok(report.metrics.meshes>0);assert.ok(report.metrics.triangles>0);});
 
 test('AEROMETRIC Profile validation rejects dishonest control capabilities',()=>{const report=validateProfile({id:'broken.profile',version:'0.1.0',roles:{body:['Body_Main']},capabilities:{rotorControl:true,gimbalControl:true,statusLights:true}});assert.equal(report.valid,false);assert.deepEqual(report.errors.map(error=>error.code),['CAPABILITY_ROTORS','CAPABILITY_GIMBAL','CAPABILITY_LIGHTS']);});
 

@@ -4,14 +4,15 @@ import fs from 'node:fs';
 import {Box3,Vector3} from 'three';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import {DroneController} from './DroneController.js';
-const bytes=fs.readFileSync('public/models/drone_v3.glb');
+const bytes=fs.readFileSync('public/models/quadrotor-v3/model.glb');
 const gltf=await new GLTFLoader().parseAsync(bytes.buffer.slice(bytes.byteOffset,bytes.byteOffset+bytes.byteLength),'');
 const c=new DroneController(gltf.scene);
-const manifest=JSON.parse(fs.readFileSync('blender_drone/v3/platform/export_manifest.json'));
+// Original Blender export manifest dimensions, in glTF XYZ meters.
+const expectedSize=[0.6109858155250549,0.16150713758543134,0.5379468500614166];
 const close=(a,b,tol=1e-6)=>assert.ok(Math.abs(a-b)<tol,`${a} != ${b}`);
 const world=o=>{gltf.scene.updateMatrixWorld(true);return o.getWorldPosition(new Vector3());};
 test('export preserves evaluated size in meters and excludes studio',()=>{
-  new Box3().setFromObject(gltf.scene,true).getSize(new Vector3()).toArray().forEach((v,i)=>close(v,manifest.gltf_expected_xyz_m[i]));
+  new Box3().setFromObject(gltf.scene,true).getSize(new Vector3()).toArray().forEach((v,i)=>close(v,expectedSize[i]));
   gltf.scene.traverse(o=>{assert.ok(!o.name.startsWith('STUDIO'));assert.ok(!o.isCamera&&!o.isLight);o.scale.toArray().forEach(v=>close(v,1));});
   assert.equal(c.root.userData.forward,'+Z');assert.equal(c.root.userData.up,'+Y');
 });

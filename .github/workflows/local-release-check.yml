@@ -16,11 +16,11 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run test:source
+      - run: npm test
+      - run: npm run verify:export
       - run: npm run validate:library
       - run: npm run validate:release
       - run: npm run build
-      - name: Model-dependent tests are pending asset rights
-        run: echo 'The full model regression suite is run locally; it requires the excluded Quadrotor V3 asset.'
 
   public-deployment-gate:
     if: github.event_name == 'workflow_dispatch'

@@ -11,7 +11,7 @@ import {DroneHoverController} from './effects/DroneHoverController.js';
 import {DroneStatusController} from './status/DroneStatusController.js';
 import {DEFAULT_DRONE_CONFIG,migrateDroneConfig} from './DroneAppearanceConfig.js';
 
-const bytes=fs.readFileSync('public/models/drone_v3.glb');
+const bytes=fs.readFileSync('public/models/quadrotor-v3/model.glb');
 const gltf=await new GLTFLoader().parseAsync(bytes.buffer.slice(bytes.byteOffset,bytes.byteOffset+bytes.byteLength),'');
 const hostScene=new THREE.Scene(), hierarchy=new DroneSceneController(gltf.scene).attach(hostScene);
 const motion=new DroneController(hierarchy.root,{poseRoot:hierarchy.rotationRoot}), adapter=new DroneModelAdapter(hierarchy.root);

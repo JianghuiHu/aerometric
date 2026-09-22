@@ -19,7 +19,7 @@ async function load(input) { return (await loadGLTF(input)).scene; }
 function firstMesh(object) { let result; object?.traverse(child => { if (!result && child.isMesh) result = child; }); return result; }
 function hex(mesh, channel = 'color') { return `#${(Array.isArray(mesh.material) ? mesh.material[0] : mesh.material)[channel].getHexString().toUpperCase()}`; }
 
-const source = await load('public/models/drone_v3.glb');
+const source = await load('public/models/quadrotor-v3/model.glb');
 const adapter = new DroneModelAdapter(source);
 adapter.setPartColor('body', '#1769d2');
 adapter.setPartColor('arms', '#b04a32');
@@ -37,9 +37,9 @@ const animatedRotor = reloaded.getObjectByName('ROTOR_FL'), animatedRipple = rel
 const initialRotor = animatedRotor.quaternion.clone(), initialRipple = animatedRipple.scale.clone();
 const mixer = new AnimationMixer(reloaded); mixer.clipAction(parsed.animations[0]).play(); mixer.update(.35);
 const report = {
-  sourceBytes: fs.statSync('public/models/drone_v3.glb').size,
+  sourceBytes: fs.statSync('public/models/quadrotor-v3/model.glb').size,
   exportedBytes: glb.byteLength,
-  reductionPercent: Number(((1 - glb.byteLength / fs.statSync('public/models/drone_v3.glb').size) * 100).toFixed(1)),
+  reductionPercent: Number(((1 - glb.byteLength / fs.statSync('public/models/quadrotor-v3/model.glb').size) * 100).toFixed(1)),
   exportedTriangles: Math.round(triangles),
   bodyColor: hex(reloaded.getObjectByName('Body_Main')),
   armColor: hex(firstMesh(reloaded.getObjectByName('ARM_FL'))),

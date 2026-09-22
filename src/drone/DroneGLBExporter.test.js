@@ -22,7 +22,7 @@ function firstMesh(object) { let result; object?.traverse(child => { if (!result
 function materialColor(mesh) { const material = Array.isArray(mesh.material) ? mesh.material[0] : mesh.material; return material.color.getHexString(); }
 
 test('current GLB round trip preserves runtime appearance and excludes hidden or runtime-only objects', async () => {
-  const source = await load('public/models/drone_v3.glb');
+  const source = await load('public/models/quadrotor-v3/model.glb');
   const adapter = new DroneModelAdapter(source);
   adapter.setPartColor('body', '#1769d2');
   adapter.setPartColor('arms', '#b04a32');
@@ -30,7 +30,7 @@ test('current GLB round trip preserves runtime appearance and excludes hidden or
   adapter.setPartVisible('landingGear', false);
   adapter.lights.set({ visible: true, color: '#d948cf', intensity: 2.6 });
 
-  const sourceBytes = fs.statSync('public/models/drone_v3.glb').size;
+  const sourceBytes = fs.statSync('public/models/quadrotor-v3/model.glb').size;
   const glb = await exportCurrentDroneGLB(adapter.root, { status: DEFAULT_DRONE_CONFIG.status });
   assert.ok(glb instanceof ArrayBuffer && glb.byteLength > 1000);
   assert.ok(glb.byteLength < sourceBytes * 0.85);

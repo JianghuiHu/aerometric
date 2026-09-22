@@ -10,7 +10,7 @@ import { DEFAULT_DRONE_CONFIG } from './DroneAppearanceConfig.js';
 import { applyDroneConfig } from './DroneRuntimeConfig.js';
 import { focusModel } from './cameraTools.js';
 
-const modelPath = 'public/models/drone_v3.glb';
+const modelPath = 'public/models/quadrotor-v3/model.glb';
 const fileHash = () => crypto.createHash('sha256').update(fs.readFileSync(modelPath)).digest('hex');
 const originalHash = fileHash();
 const bytes = fs.readFileSync(modelPath);

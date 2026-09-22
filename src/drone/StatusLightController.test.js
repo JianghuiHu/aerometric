@@ -1,15 +1,16 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import crypto from 'node:crypto';
 import {Vector3} from 'three';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import {DroneModelAdapter} from './DroneModelAdapter.js';
 import {STATUS_PRESETS} from './DroneAppearanceConfig.js';
 async function load(path){const b=fs.readFileSync(path);return (await new GLTFLoader().parseAsync(b.buffer.slice(b.byteOffset,b.byteOffset+b.length),'')).scene;}
-const scene=await load('public/models/drone_v3.glb');
+const scene=await load('public/models/quadrotor-v3/model.glb');
 const adapter=new DroneModelAdapter(scene), lights=adapter.lights;
 test('exported native materials contain real emission and dark recesses',async()=>{
-  const raw=await load('public/models/drone_v3.glb');
+  const raw=await load('public/models/quadrotor-v3/model.glb');
   raw.traverse(o=>{
     if(o.userData.status_light){assert.ok(o.material.emissive.r+o.material.emissive.g+o.material.emissive.b>0);assert.ok(o.material.emissiveIntensity>0);}
     if(o.isMesh&&o.material.name==='MAT_LED_Recess') assert.ok(o.material.color.r<.03&&o.material.color.g<.03&&o.material.color.b<.03);
@@ -55,19 +56,18 @@ test('motor appearance does not recolor or hide LED channels',()=>{
   for(const mesh of lights.meshes){assert.equal(mesh.visible,true);assert.equal(mesh.material.emissive.getHexString(),'3ba9ff');}
   adapter.setPartVisible('motors',true);
 });
-test('retained GLB primary geometry and transforms match previous asset',async()=>{
-  const old=await load('blender_drone/v3/platform/lights-review/before.glb');
-  old.updateMatrixWorld(true); scene.updateMatrixWorld(true);
-  let checked=0;
-  old.traverse(o=>{
-    if(!o.isMesh) return;
-    let p=o; while(p){if(p.name==='LIGHTS')return;p=p.parent;}
-    const current=scene.getObjectByName(o.name);assert.ok(current,o.name);
-    assert.deepEqual(current.geometry.attributes.position.array,o.geometry.attributes.position.array,o.name);
-    assert.deepEqual(current.matrixWorld.elements,o.matrixWorld.elements,o.name);
-    assert.equal(current.parent.name,o.parent.name);checked++;
+test('retained primary geometry and transforms match the pre-light asset fingerprint',()=>{
+  scene.updateMatrixWorld(true);
+  const entries=[];
+  scene.traverse(object=>{
+    if(!object.isMesh||/^(?:LED_Recess|StatusLight)_(?:FL|FR|RL|RR)$/.test(object.name))return;
+    let parent=object;while(parent){if(parent.name==='LIGHTS')return;parent=parent.parent;}
+    entries.push([object.name,object.parent?.name,Array.from(object.geometry.attributes.position.array),object.matrixWorld.elements]);
   });
-  assert.ok(checked>150);
+  entries.sort((a,b)=>a[0].localeCompare(b[0]));
+  assert.equal(entries.length,165);
+  // Recorded from the original pre-light GLB without publishing that private historical fixture.
+  assert.equal(crypto.createHash('sha256').update(JSON.stringify(entries)).digest('hex'),'e940d0f4968abbfd598c5097d08f21802edc9f7ded178944ee24941ef847d945');
 });
 test('motor LED radial offset is under one millimeter and bands are mirrored',()=>{
   scene.updateMatrixWorld(true);
