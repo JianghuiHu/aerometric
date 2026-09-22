@@ -22,13 +22,15 @@
 - [x] Reference Drone 01 validates with Level 1 Profile and Level 2 native extras
 - [x] Community Library contains one licensed official model; local license and package gates pass
 - [x] Reference Drone preparation branch CI and manual public-deployment gate pass on GitHub
+- [x] Protected Vercel Preview loads the official model and passes Studio import/export browser dogfood
 
 ## Required before a public GitHub release
 
 - [ ] Confirm the project name, repository owner, canonical URL, and copyright holder.
 - [x] Add a redistributable preview and official model package after licensing is confirmed.
 - [x] Keep `public/models/drone_v3.glb` outside the public package.
-- [ ] Deploy and verify Vercel Preview, then Production and the official domain.
+- [x] Deploy and verify Vercel Preview.
+- [ ] Deploy and verify Production and the official domain.
 - [ ] Create and verify the v0.1.0 GitHub Release after deployment checks.
 - [x] Run source CI in the GitHub repository and check host-specific assumptions.
 

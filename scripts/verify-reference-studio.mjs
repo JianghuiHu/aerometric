@@ -21,6 +21,13 @@ try{
   socket.onmessage=event=>{const message=JSON.parse(event.data),entry=pending.get(message.id);if(message.method==='Runtime.consoleAPICalled'&&message.params.type==='error')pageErrors.push(message.params.args.map(arg=>arg.description??arg.value).join(' '));if(entry){pending.delete(message.id);message.error?entry.reject(new Error(message.error.message)):entry.resolve(message.result);}};
   const send=(method,params={})=>new Promise((resolve,reject)=>{const callId=++id;pending.set(callId,{resolve,reject});socket.send(JSON.stringify({id:callId,method,params}));});
   async function evaluate(expression){const reply=await send('Runtime.evaluate',{expression,awaitPromise:true,returnByValue:true});if(reply.exceptionDetails)throw new Error(reply.exceptionDetails.exception?.description??reply.exceptionDetails.text);return reply.result.value;}
+  if(process.env.REFERENCE_STUDIO_COOKIE){
+    const cookie=process.env.REFERENCE_STUDIO_COOKIE,index=cookie.indexOf('=');
+    if(index<1)throw new Error('Invalid Preview bypass cookie');
+    await send('Network.enable');
+    await send('Network.setCookie',{name:cookie.slice(0,index),value:cookie.slice(index+1),url:base,secure:true,httpOnly:true});
+    await send('Page.reload',{ignoreCache:true});
+  }
   for(let i=0;i<120;i++){if(await evaluate('Boolean(window.__DRONE_DEMO__?.renderImage)'))break;if(i===119)throw new Error('Studio did not initialize');await wait(100);}
   const empty=await evaluate('({shown:!document.querySelector("#empty-state").hidden,controlsDisabled:document.querySelector("#controls").disabled,libraryEmpty:document.querySelector("#community-models").textContent})');
   if(mode==='empty-upload'){
@@ -44,6 +51,8 @@ try{
   for(let i=0;i<150;i++){if(await evaluate(`Boolean(window.__DRONE_DEMO__.session?.sourceType==="${expectedSource}"&&document.querySelector("#model-metrics").textContent)`))break;if(i===149)throw new Error('Reference GLB did not load');await wait(100);}
   const loaded=await evaluate('({source:window.__DRONE_DEMO__.session.sourceType,meshes:window.__DRONE_DEMO__.session.metrics.meshes,triangles:window.__DRONE_DEMO__.session.metrics.triangles,parts:["body","topCover","arms","rotors","motors","landingGear","gimbal","camera"].map(key=>[key,window.__DRONE_DEMO__.adapter.hasPart(key)]),lights:window.__DRONE_DEMO__.adapter.lights.meshes.length,emptyHidden:document.querySelector("#empty-state").hidden})');
   if(!loaded.emptyHidden||loaded.parts.some(([,found])=>!found)||loaded.lights!==6)throw new Error(`Loaded model capability failure: ${JSON.stringify(loaded)}`);
+  const localization=await evaluate('(()=>{const label=document.querySelector(\'[data-i18n="part.body"]\'),before=label.textContent;document.querySelector("#locale-toggle").click();const after=label.textContent;document.querySelector("#locale-toggle").click();return{before,after};})()');
+  if(localization.before===localization.after)throw new Error(`Locale toggle did not translate part label: ${JSON.stringify(localization)}`);
   if(process.env.REFERENCE_STUDIO_SCREENSHOT){const screenshot=await send('Page.captureScreenshot',{format:'png'});fs.writeFileSync(process.env.REFERENCE_STUDIO_SCREENSHOT,Buffer.from(screenshot.data,'base64'));}
   const controls=await evaluate(`(async()=>{
     const demo=window.__DRONE_DEMO__,color=document.querySelector('[data-part-color="body"]'),camera=document.querySelector('[data-part-visible="camera"]');
@@ -69,5 +78,5 @@ try{
   if(controls.color.toLowerCase()!=='#3366aa'||controls.cameraVisible||!controls.rotorRunning||controls.gimbalPitch!==15||controls.status!=='mission'||controls.lightEmissive.length!==6||controls.lightEmissive.some(color=>color!=='2bbe6d')||controls.images.some(image=>image.bytes<3000)||controls.exportBytes<10000)throw new Error(`Controls/export failure: ${JSON.stringify(controls)}`);
   if(mode==='library'&&(!controls.roundtrip?.sessionChanged||controls.roundtrip.fileName!=='Roundtrip.glb'||controls.roundtrip.color!=='#3366aa'||controls.roundtrip.cameraVisible||controls.roundtrip.size.some((size,index)=>Math.abs(size-controls.roundtrip.originalSize[index])>1e-4)))throw new Error(`Library roundtrip failure: ${JSON.stringify({roundtrip:controls.roundtrip,pageErrors})}`);
   if(process.env.REFERENCE_STUDIO_ROUNDTRIP_SCREENSHOT){const screenshot=await send('Page.captureScreenshot',{format:'png'});fs.writeFileSync(process.env.REFERENCE_STUDIO_ROUNDTRIP_SCREENSHOT,Buffer.from(screenshot.data,'base64'));}
-  console.log(JSON.stringify({empty,loaded,controls},null,2));
+  console.log(JSON.stringify({empty,loaded,localization,controls},null,2));
 }finally{socket?.close();child.kill();try{fs.rmSync(profile,{recursive:true,force:true,maxRetries:3,retryDelay:100});}catch{}}
