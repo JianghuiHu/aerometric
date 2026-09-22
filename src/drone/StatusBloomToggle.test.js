@@ -1,0 +1,26 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
+import {DroneModelAdapter} from './DroneModelAdapter.js';
+import {DroneStatusController} from './status/DroneStatusController.js';
+
+test('Bloom can be disabled independently of the LED meshes and survives status changes',async()=>{
+  const bytes=fs.readFileSync('release/aerometric-0.1/models/aerometric-reference-drone-01/model.glb');
+  const root=(await new GLTFLoader().parseAsync(bytes.buffer.slice(bytes.byteOffset,bytes.byteOffset+bytes.byteLength),'')).scene;
+  const adapter=new DroneModelAdapter(root);
+  const status=new DroneStatusController({statusField:{mesh:{visible:true},setConfig(){},update(){},dispose(){}},hover:{setConfig(){},update(){},reset(){}},lights:adapter.lights,rotor:{running:false,speed:12}});
+  assert.ok(adapter.lights.bloomStrength>0);
+  status.setBloomEnabled(false);
+  assert.equal(adapter.lights.bloomStrength,0);
+  assert.equal(adapter.lights.meshes.length,6);
+  assert.ok(adapter.lights.meshes.every(mesh=>mesh.visible));
+  status.setStatus('mission');
+  assert.equal(adapter.lights.bloomStrength,0);
+  assert.equal(status.getConfig().light.bloomEnabled,false);
+  status.setBloomEnabled(true);
+  assert.ok(adapter.lights.bloomStrength>0);
+  status.setLightVisible(false);
+  assert.equal(adapter.lights.bloomStrength,0);
+  status.dispose();adapter.dispose();
+});

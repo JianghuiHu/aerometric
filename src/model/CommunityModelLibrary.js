@@ -16,6 +16,7 @@ export function validateCommunityRegistry(value){
     for(const key of ['name','author','type'])if(typeof entry[key]!=='string'||!entry[key].trim())errors.push(`${at} requires ${key}`);
     if(typeof entry.license!=='string'||!entry.license.trim()||AMBIGUOUS_LICENSE.test(entry.license.trim()))errors.push(`${at} requires an explicit asset license`);
     if(entry.redistributable!==true)errors.push(`${at} must explicitly set redistributable to true`);
+    if(entry.official!==undefined&&typeof entry.official!=='boolean')errors.push(`${at} official must be boolean`);
     if(![0,1,2].includes(entry.compatibility))errors.push(`${at} compatibility must be 0, 1, or 2`);
     for(const [key,extension] of [['model','.glb'],['preview','.webp']])if(typeof entry[key]!=='string'||!LOCAL_PATH.test(entry[key])||!entry[key].toLowerCase().endsWith(extension))errors.push(`${at} ${key} must be a local ${extension} path`);
     if(entry.profile!==undefined&&(typeof entry.profile!=='string'||!LOCAL_PATH.test(entry.profile)||!entry.profile.toLowerCase().endsWith('.json')))errors.push(`${at} profile must be a local JSON path`);

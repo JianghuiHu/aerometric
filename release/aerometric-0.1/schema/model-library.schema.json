@@ -23,7 +23,8 @@
       "profile": {"type": "string", "pattern": "\\.json$"},
       "preview": {"type": "string", "pattern": "\\.webp$"},
       "license": {"type": "string", "minLength": 1},
-      "redistributable": {"const": true}
+      "redistributable": {"const": true},
+      "official": {"type": "boolean"}
     },
     "allOf": [{"if": {"properties": {"compatibility": {"const": 1}}}, "then": {"required": ["profile"]}}]
       }

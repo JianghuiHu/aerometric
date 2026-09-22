@@ -25,7 +25,7 @@
     "preview:web-validator": "vite preview --config release/aerometric-0.1/web-validator/vite.config.js --port 4175",
     "scan:model": "node scripts/scan-drone-glb.mjs",
     "test": "node --test src/drone/*.test.js",
-    "test:source": "node --test src/drone/CommunityLicenseGate.test.js src/drone/CommunityModelLibrary.test.js src/drone/ModelProfileMapper.test.js src/drone/Phase3Architecture.test.js src/drone/PublishGate.test.js src/drone/ReferenceDrone01.test.js src/drone/V31Architecture.test.js src/drone/V321Architecture.test.js"
+    "test:source": "node --test src/drone/CommunityLicenseGate.test.js src/drone/CommunityModelLibrary.test.js src/drone/ModelProfileMapper.test.js src/drone/Phase3Architecture.test.js src/drone/PublishGate.test.js src/drone/ReferenceDrone01.test.js src/drone/StatusBloomToggle.test.js src/drone/V3Official.test.js src/drone/V31Architecture.test.js src/drone/V321Architecture.test.js"
   },
   "dependencies": {
     "@tabler/icons": "^3.46.0",

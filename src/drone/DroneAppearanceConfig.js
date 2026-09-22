@@ -16,7 +16,7 @@ const online=DRONE_STATUS_PRESETS.online;
 export const DEFAULT_DRONE_CONFIG=Object.freeze({
   appearance:Object.freeze(Object.fromEntries(PART_DEFINITIONS.map(part=>[part.key,Object.freeze({color:part.color,visible:true})]))),
   motion:Object.freeze({rotorRunning:false,rotorSpeed:12,pitch:0,roll:0,yaw:0,gimbalPitch:0,gimbalYaw:0}),
-  status:Object.freeze({type:'online',light:Object.freeze({...online.light,visible:true}),statusField:Object.freeze({...online.statusField}),hover:Object.freeze({...online.hover})}),
+  status:Object.freeze({type:'online',light:Object.freeze({...online.light,visible:true,bloomEnabled:true}),statusField:Object.freeze({...online.statusField}),hover:Object.freeze({...online.hover})}),
   environment:Object.freeze({mode:'solid',color:'#edf0f2',groundVisible:true,flightRoute:false,cameraFollow:false,brightness:1,groundIntensity:.58,rainAmount:.65,fog:0}),
   camera:Object.freeze({preset:'perspective',focalLength:55,distance:1.157,height:.55,target:Object.freeze([0,.1,0])}),
   export:Object.freeze({format:'png',size:'hd',width:1920,height:1080,transparent:false,includeRain:true}),

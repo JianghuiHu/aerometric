@@ -1,0 +1,129 @@
+{
+  "id": "aerometric.quadrotor-v3",
+  "version": "0.1.0",
+  "label": "Quadrotor V3",
+  "units": "meter",
+  "forwardAxis": "+Z",
+  "roles": {
+    "root": [
+      "DRONE_ROOT"
+    ],
+    "body": [
+      "Body_Main",
+      "Body_FrontSection",
+      "Body_Bottom",
+      "Body_Side_L",
+      "Body_Side_R"
+    ],
+    "topCover": [
+      "Body_TopCover"
+    ],
+    "arms": [
+      "ARM_FL",
+      "ARM_FR",
+      "ARM_RL",
+      "ARM_RR"
+    ],
+    "motors": [
+      "MOTOR_FL",
+      "MOTOR_FR",
+      "MOTOR_RL",
+      "MOTOR_RR"
+    ],
+    "rotor.frontLeft": [
+      "ROTOR_FL"
+    ],
+    "rotor.frontRight": [
+      "ROTOR_FR"
+    ],
+    "rotor.rearLeft": [
+      "ROTOR_RL"
+    ],
+    "rotor.rearRight": [
+      "ROTOR_RR"
+    ],
+    "landingGear": [
+      "LANDING_GEAR"
+    ],
+    "gimbal": [
+      "GIMBAL_ROOT"
+    ],
+    "gimbal.yaw": [
+      "Gimbal_Yaw"
+    ],
+    "gimbal.pitch": [
+      "Gimbal_Pitch"
+    ],
+    "camera": [
+      "Camera_Main"
+    ],
+    "light.frontLeft": [
+      "FrontLight_Diffuser_L"
+    ],
+    "light.frontRight": [
+      "FrontLight_Diffuser_R"
+    ],
+    "light.motorFrontLeft": [
+      "StatusLight_FL"
+    ],
+    "light.motorFrontRight": [
+      "StatusLight_FR"
+    ],
+    "light.motorRearLeft": [
+      "StatusLight_RL"
+    ],
+    "light.motorRearRight": [
+      "StatusLight_RR"
+    ]
+  },
+  "capabilities": {
+    "partColors": true,
+    "partVisibility": true,
+    "rotorControl": true,
+    "gimbalControl": true,
+    "statusLights": true,
+    "statusField": true
+  },
+  "metadata": {
+    "source": "AEROMETRIC authored Quadrotor V3",
+    "sourceSha256": "587a8c4fdca194cb3f742d4db4ef037b10df311af1d992fc52d80651ee377939",
+    "profileStatus": "official",
+    "meshes": 177,
+    "triangles": 79708,
+    "rotorAxis": "+Y",
+    "rotorDirections": {
+      "FL": 1,
+      "FR": -1,
+      "RL": -1,
+      "RR": 1
+    },
+    "gimbalLimits": {
+      "pitch": [
+        -45,
+        45
+      ],
+      "yaw": [
+        -60,
+        60
+      ]
+    },
+    "editableMaterials": [
+      "MAT_Body_Main",
+      "MAT_Body_Accent",
+      "MAT_Arm_Carbon",
+      "MAT_Propeller",
+      "MAT_Motor_Metal",
+      "MAT_Gimbal"
+    ],
+    "visibilityGroups": [
+      "body",
+      "topCover",
+      "arms",
+      "rotors",
+      "motors",
+      "landingGear",
+      "gimbal",
+      "camera"
+    ]
+  }
+}

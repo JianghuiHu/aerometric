@@ -2,6 +2,19 @@
   "version": "0.1.0",
   "models": [
     {
+      "id": "quadrotor-v3",
+      "name": "Quadrotor V3",
+      "author": "AEROMETRIC",
+      "type": "quadrotor",
+      "compatibility": 2,
+      "model": "quadrotor-v3/model.glb",
+      "profile": "quadrotor-v3/model.aerometric.json",
+      "preview": "quadrotor-v3/preview.webp",
+      "license": "CC0-1.0",
+      "redistributable": true,
+      "official": true
+    },
+    {
       "id": "aerometric-reference-drone-01",
       "name": "AEROMETRIC Reference Drone 01",
       "author": "AEROMETRIC",
@@ -11,7 +24,8 @@
       "profile": "aerometric-reference-drone-01/model.aerometric.json",
       "preview": "aerometric-reference-drone-01/preview.webp",
       "license": "CC0-1.0",
-      "redistributable": true
+      "redistributable": true,
+      "official": true
     }
   ]
 }

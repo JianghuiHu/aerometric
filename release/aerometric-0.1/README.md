@@ -6,7 +6,7 @@ AEROMETRIC 0.1 defines a small, tool-independent contract for controllable drone
 
 ## Start here
 
-- Studio users: run the application from the repository root with `npm ci` and `npm run dev`. Studio includes the CC0 Reference Drone 01; if it is unavailable, Studio opens an upload / Community Library empty state.
+- Studio users: run the application from the repository root with `npm ci` and `npm run dev`. Studio loads the CC0 Quadrotor V3 by default; if it is unavailable, Studio opens an upload / Community Library empty state. The lightweight CC0 Reference Drone 01 remains in the Library.
 - Model authors: read [Model Standard 0.1](docs/model-standard.md).
 - AI-assisted model authors: start with [AI_START_HERE.md](skills/AI_START_HERE.md). To install the Codex skill, copy the entire [`aerometric-model`](skills/aerometric-model/) folder into your Codex skills directory (`$CODEX_HOME/skills`, normally `~/.codex/skills`), then start a new Codex task.
 - Integrators: validate a sidecar profile against [the JSON Schema](schema/aerometric-profile.schema.json) or run the [CLI Validator](validator/README.md).
@@ -28,7 +28,7 @@ The browser keeps imported geometry, node transforms, scale, and physical dimens
 
 ## 0.1 package scope
 
-This package contains the standard, profile schema, a Quadrotor V3 Profile example without its restricted binary, contribution rules, an installable Agent Skill, the CLI Validator, Blender Helper 0.1, and [CC0 Reference Drone 01](models/aerometric-reference-drone-01/README.md).
+This package contains the standard, profile schema, contribution rules, an installable Agent Skill, the CLI Validator, Blender Helper 0.1, [CC0 Quadrotor V3](models/quadrotor-v3/README.md), and [CC0 Reference Drone 01](models/aerometric-reference-drone-01/README.md).
 
 ```text
 node validator/src/cli.mjs ./models/my-drone
@@ -37,4 +37,4 @@ node validator/src/cli.mjs ./model.glb ./model.aerometric.json --json
 
 ## Licensing
 
-Source code, Skill, Schema, Validator, and Blender generator are MIT licensed. Reference Drone 01 assets are CC0-1.0; Quadrotor V3 assets remain unlicensed for redistribution. See [MODEL_ASSET_LICENSE.md](MODEL_ASSET_LICENSE.md).
+Source code, Skill, Schema, Validator, and Blender generator are MIT licensed. The two official model packages are each CC0-1.0. See [MODEL_ASSET_LICENSE.md](MODEL_ASSET_LICENSE.md).

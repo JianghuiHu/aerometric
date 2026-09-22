@@ -6,7 +6,7 @@ import path from 'node:path';
 const base=process.env.BENCHMARK_URL??'http://127.0.0.1:4183/';
 const chrome=process.env.CHROME_BIN??'C:/Program Files/Google/Chrome/Application/chrome.exe';
 const seconds=Number(process.env.BENCHMARK_SECONDS??2.5);
-const files={reference:path.resolve('release/aerometric-0.1/models/aerometric-reference-drone-01/model.glb'),v3:path.resolve(process.env.BENCHMARK_V3??'public/models/drone_v3.glb')};
+const files={reference:path.resolve('release/aerometric-0.1/models/aerometric-reference-drone-01/model.glb'),v3:path.resolve(process.env.BENCHMARK_V3??'public/models/quadrotor-v3/model.glb')};
 if(!fs.existsSync(chrome)||Object.values(files).some(file=>!fs.existsSync(file)))throw new Error('Chrome and both model GLBs must exist');
 const port=9700+Math.floor(Math.random()*200),profile=path.join(os.tmpdir(),`aerometric-bench-${Date.now()}`);
 const child=spawn(chrome,[`--remote-debugging-port=${port}`,`--user-data-dir=${profile}`,'--headless=new','--no-first-run','--window-size=1440,900',`--force-device-scale-factor=${process.env.BENCHMARK_DPR??1}`,base],{stdio:'ignore'});
@@ -44,6 +44,7 @@ try{
     await evaluate(`__DRONE_DEMO__.setEnvironment({mode:'rain',rainAmount:0})`);await wait(500);results.push(await sample(name,'rain-off',true));
     await evaluate(`__DRONE_DEMO__.setEnvironment({mode:'rain',rainAmount:.65})`);results.push(await sample(name,'rain-on',true));
   }
+  if(process.env.BENCHMARK_SCREENSHOT){await evaluate(`__DRONE_DEMO__.setEnvironment({mode:'solid'})`);await wait(500);const capture=await send('Page.captureScreenshot',{format:'png'});fs.writeFileSync(process.env.BENCHMARK_SCREENSHOT,Buffer.from(capture.data,'base64'));}
   const environment=await evaluate(`({viewport:[innerWidth,innerHeight],devicePixelRatio,rendererPixelRatio:__DRONE_DEMO__.renderer.getPixelRatio(),userAgent:navigator.userAgent,webgl:__DRONE_DEMO__.renderer.getContext().getParameter(__DRONE_DEMO__.renderer.getContext().RENDERER)})`);
   console.log(JSON.stringify({date:new Date().toISOString(),base,environment,results},null,2));
 }finally{socket?.close();child.kill();try{fs.rmSync(profile,{recursive:true,force:true,maxRetries:3,retryDelay:100});}catch{}}
