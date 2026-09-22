@@ -80,22 +80,23 @@ export class DroneModelAdapter {
     const material = this.meshes(key).flatMap(mesh => Array.isArray(mesh.material) ? mesh.material : [mesh.material]).find(m => m.userData.sourceMaterialName !== 'MAT_Lens');
     return material ? `#${material.color.getHexString()}` : null;
   }
+  bodyTextureMesh(){const body=this.meshes('body');return body.find(mesh=>mesh.name==='Body_Main')??body[0];}
   getBodyTextureCapability() {
-    const body = this.meshes('body')[0];if(!body)return{supported:false,mesh:null,uvCount:0,reason:'Mapped body contains no mesh.'};
+    const body = this.bodyTextureMesh();if(!body)return{supported:false,mesh:null,uvCount:0,reason:'Mapped body contains no mesh.'};
     return { supported: Boolean(body.geometry.attributes.uv), mesh: body.name, uvCount: body.geometry.attributes.uv?.count || 0,
       reason: body.geometry.attributes.uv ? null : 'Body_Main 缺少 UV，当前资产无法可靠应用图片贴图。' };
   }
   applyBodyTexture(texture) {
     const capability = this.getBodyTextureCapability();
     if (!capability.supported) { texture?.dispose?.(); throw new Error(capability.reason); }
-    const body = this.meshes('body')[0];
+    const body = this.bodyTextureMesh();
     const material = (Array.isArray(body.material) ? body.material : [body.material]).find(m => m.userData.sourceMaterialName === 'MAT_Body_Main') || body.material;
     if (this.bodyTexture && this.bodyTexture !== texture) this.bodyTexture.dispose();
     this.bodyTexture = texture; texture.colorSpace = THREE.SRGBColorSpace; texture.flipY = false;
     material.map = texture; material.needsUpdate = true;
   }
   clearBodyTexture() {
-    const body = this.meshes('body')[0];if(!body){this.bodyTexture?.dispose();this.bodyTexture=null;return;}
+    const body = this.bodyTextureMesh();if(!body){this.bodyTexture?.dispose();this.bodyTexture=null;return;}
     for (const material of Array.isArray(body.material) ? body.material : [body.material]) { if (material.map === this.bodyTexture) material.map = null; material.needsUpdate = true; }
     this.bodyTexture?.dispose(); this.bodyTexture = null;
   }

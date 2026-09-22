@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import {Vector3} from 'three';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
-const path = process.argv[2] || 'public/models/drone_v3.glb';
+const path = process.argv[2] || 'public/models/quadrotor-v3/model.glb';
 const bytes = fs.readFileSync(path);
 const {scene} = await new GLTFLoader().parseAsync(bytes.buffer.slice(bytes.byteOffset,bytes.byteOffset+bytes.byteLength),'');
 scene.updateMatrixWorld(true);

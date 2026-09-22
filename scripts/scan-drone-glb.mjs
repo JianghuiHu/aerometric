@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
-const input = process.argv[2] || 'public/models/drone_v3.glb';
+const input = process.argv[2] || 'public/models/quadrotor-v3/model.glb';
 const output = process.argv[3] || 'blender_drone/v3/platform/appearance-hierarchy.json';
 const bytes = fs.readFileSync(input);
 const gltf = await new GLTFLoader().parseAsync(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength), '');

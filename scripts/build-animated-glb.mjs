@@ -9,7 +9,7 @@ class NodeFileReader {
 }
 globalThis.FileReader ??= NodeFileReader;
 
-const bytes = fs.readFileSync('public/models/drone_v3.glb');
+const bytes = fs.readFileSync('public/models/quadrotor-v3/model.glb');
 const input = bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength);
 const source = (await new GLTFLoader().parseAsync(input, '')).scene.getObjectByName('DRONE_ROOT');
 let sourceTriangles = 0; source.traverse(object => { if (object.isMesh) sourceTriangles += (object.geometry.index?.count ?? object.geometry.attributes.position.count) / 3; });
