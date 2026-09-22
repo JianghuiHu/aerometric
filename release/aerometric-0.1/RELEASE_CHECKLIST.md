@@ -23,10 +23,11 @@
 - [x] Community Library contains one licensed official model; local license and package gates pass
 - [x] Reference Drone preparation branch CI and manual public-deployment gate pass on GitHub
 - [x] Protected Vercel Preview loads the official model and passes Studio import/export browser dogfood
+- [x] Reference Drone package ZIP contains only the five licensed package files
 
 ## Required before a public GitHub release
 
-- [ ] Confirm the project name, repository owner, canonical URL, and copyright holder.
+- [x] Confirm AEROMETRIC, `JianghuiHu/aerometric`, `aerometric.vercel.app`, and the repository MIT holder string `AEROMETRIC contributors`.
 - [x] Add a redistributable preview and official model package after licensing is confirmed.
 - [x] Keep `public/models/drone_v3.glb` outside the public package.
 - [x] Deploy and verify Vercel Preview.

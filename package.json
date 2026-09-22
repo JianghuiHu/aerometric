@@ -20,6 +20,7 @@
     "validate:model": "node release/aerometric-0.1/validator/src/cli.mjs",
     "build:ai-kit": "node release/aerometric-0.1/scripts/build-ai-kit.mjs",
     "build:blender-helper": "node release/aerometric-0.1/scripts/build-blender-helper.mjs",
+    "build:reference-model": "node release/aerometric-0.1/scripts/build-reference-model.mjs",
     "build:web-validator": "vite build --config release/aerometric-0.1/web-validator/vite.config.js",
     "preview:web-validator": "vite preview --config release/aerometric-0.1/web-validator/vite.config.js --port 4175",
     "scan:model": "node scripts/scan-drone-glb.mjs",

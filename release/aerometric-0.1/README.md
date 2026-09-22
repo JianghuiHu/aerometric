@@ -13,7 +13,7 @@ AEROMETRIC 0.1 defines a small, tool-independent contract for controllable drone
 - Browser users: build or host the local-only [Web Validator](web-validator/README.md).
 - Third-party model authors: use Studio mapping and review the [mapping guide](docs/model-mapping.md).
 - Community maintainers: review the metadata-only [model library contract](docs/model-library.md).
-- Release users: download `artifacts/AEROMETRIC_AI_Model_Kit_0.1.zip` or `artifacts/AEROMETRIC_Blender_Helper_0.1.zip` after running the corresponding build command from the Studio repository.
+- Release users: download `artifacts/AEROMETRIC_AI_Model_Kit_0.1.zip`, `artifacts/AEROMETRIC_Blender_Helper_0.1.zip`, or `artifacts/AEROMETRIC_Reference_Drone_01_0.1.zip` after running the corresponding build command from the Studio repository.
 - Blender authors: install [AEROMETRIC Blender Helper](blender/addon/aerometric_helper/README.md) to tag, validate, and export a controllable asset.
 
 ## Compatibility levels
