@@ -9,8 +9,8 @@ Open Drone 3D Configurator & Model Standard. The Studio is available at [aeromet
 - [Model Standard 0.1](release/aerometric-0.1/docs/model-standard.md)
 - [Release audit and blockers](release/aerometric-0.1/RELEASE_AUDIT_0.1.md)
 
-Run `npm ci`, `npm run test:source`, `npm run build`, `npm run validate:release`, and `npm run check:publish`. Studio includes the [CC0 Reference Drone 01](release/aerometric-0.1/models/aerometric-reference-drone-01/README.md); if a built-in asset is unavailable, Studio opens with an upload / Community Library empty state. Quadrotor V3 remains excluded while its redistribution rights are unconfirmed.
+Run `npm ci`, `npm run test:source`, `npm run build`, `npm run validate:release`, and `npm run check:publish`. Studio loads the existing [CC0 Quadrotor V3](release/aerometric-0.1/models/quadrotor-v3/README.md) by default; if it is unavailable, Studio opens with an upload / Community Library empty state. [CC0 Reference Drone 01](release/aerometric-0.1/models/aerometric-reference-drone-01/README.md) remains the lightweight validation model in the Library.
 
-The root MIT license covers code, documentation, Skill, Schema, Validator, and the Blender generator. The Reference Drone 01 model, Profile, and preview use CC0-1.0. Quadrotor V3 and its sources remain outside this authorization; see [Model asset licensing](release/aerometric-0.1/MODEL_ASSET_LICENSE.md).
+The root MIT license covers code, documentation, Skill, Schema, Validator, and the Blender generator. Each official model package, its Profile, and its preview use CC0-1.0; see [Model asset licensing](release/aerometric-0.1/MODEL_ASSET_LICENSE.md).
 
-`npm run check:publish` requires the official reference model in `public/models/index.json`, a package `LICENSE`, explicit `license` and `redistributable: true` metadata, a passing Level 1 validation, and no unindexed public GLB. Source checks and the deployment gate are separate; a successful build does not authorize distribution.
+`npm run check:publish` requires both official models in `public/models/index.json`, package `LICENSE` files, explicit `license` and `redistributable: true` metadata, valid Profile and native extras, and no unindexed public GLB. Source checks and the deployment gate are separate; a successful build alone does not authorize distribution.

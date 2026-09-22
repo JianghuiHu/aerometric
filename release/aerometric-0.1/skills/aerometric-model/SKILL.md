@@ -7,6 +7,8 @@ description: Create, adapt, or review drone GLB assets for AEROMETRIC compatibil
 
 Preserve the authored drone's visual design while making its controllable semantics explicit.
 
+The official Quadrotor V3 Profile demonstrates full role coverage. Treat its role mapping as a semantic example; other models do not need to copy its shape or materials. Reference Drone 01 is the lightweight validation fixture.
+
 ## Workflow
 
 1. Inspect the real GLB hierarchy, meshes, materials, transforms, dimensions, pivots, and animations. Do not assume names match the standard.

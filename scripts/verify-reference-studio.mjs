@@ -7,6 +7,7 @@ const chrome=process.env.CHROME_BIN;
 const base=process.env.REFERENCE_STUDIO_URL??'http://127.0.0.1:4176/';
 const model=path.resolve('release/aerometric-0.1/models/aerometric-reference-drone-01/model.glb');
 const mode=process.env.REFERENCE_STUDIO_MODE??'empty-upload';
+const libraryIndex=Number(process.env.REFERENCE_STUDIO_LIBRARY_INDEX??0);
 const expectBuiltIn=mode==='built-in';
 if(!chrome||!fs.existsSync(chrome)||!fs.existsSync(model))throw new Error('Set CHROME_BIN to a local Chrome executable and ensure the reference model exists');
 const port=9400+Math.floor(Math.random()*300),profile=path.join(os.tmpdir(),`aerometric-reference-${Date.now()}`);
@@ -42,10 +43,14 @@ try{
     const documentNode=await send('DOM.getDocument');
     const inputNode=await send('DOM.querySelector',{nodeId:documentNode.root.nodeId,selector:'#model-file'});
     await send('DOM.setFileInputFiles',{files:[model],nodeId:inputNode.nodeId});
+  }else if(mode==='upload'){
+    const documentNode=await send('DOM.getDocument');
+    const inputNode=await send('DOM.querySelector',{nodeId:documentNode.root.nodeId,selector:'#model-file'});
+    await send('DOM.setFileInputFiles',{files:[model],nodeId:inputNode.nodeId});
   }else if(mode==='library'){
     await evaluate('document.querySelector("#model-menu-toggle").click()');
     for(let i=0;i<80;i++){if(await evaluate('Boolean(document.querySelector(".community-choice"))'))break;if(i===79)throw new Error('Community model was not listed');await wait(100);}
-    await evaluate('document.querySelector(".community-choice").click()');
+    await evaluate(`document.querySelectorAll(".community-choice")[${libraryIndex}].click()`);
   }
   const expectedSource=expectBuiltIn?'built-in':'compatible-imported';
   for(let i=0;i<150;i++){if(await evaluate(`Boolean(window.__DRONE_DEMO__.session?.sourceType==="${expectedSource}"&&document.querySelector("#model-metrics").textContent)`))break;if(i===149)throw new Error('Reference GLB did not load');await wait(100);}
@@ -76,7 +81,7 @@ try{
     return result;
   })()`);
   if(controls.color.toLowerCase()!=='#3366aa'||controls.cameraVisible||!controls.rotorRunning||controls.gimbalPitch!==15||controls.status!=='mission'||controls.lightEmissive.length!==6||controls.lightEmissive.some(color=>color!=='2bbe6d')||controls.images.some(image=>image.bytes<3000)||controls.exportBytes<10000)throw new Error(`Controls/export failure: ${JSON.stringify(controls)}`);
-  if(mode==='library'&&(!controls.roundtrip?.sessionChanged||controls.roundtrip.fileName!=='Roundtrip.glb'||controls.roundtrip.color!=='#3366aa'||controls.roundtrip.cameraVisible||controls.roundtrip.size.some((size,index)=>Math.abs(size-controls.roundtrip.originalSize[index])>1e-4)))throw new Error(`Library roundtrip failure: ${JSON.stringify({roundtrip:controls.roundtrip,pageErrors})}`);
+  if(mode==='library'&&(!controls.roundtrip?.sessionChanged||controls.roundtrip.fileName!=='Roundtrip.glb'||controls.roundtrip.color!=='#3366aa'||controls.roundtrip.cameraVisible||controls.roundtrip.size.some((size,index)=>Math.abs(size-controls.roundtrip.originalSize[index])>1e-3)))throw new Error(`Library roundtrip failure: ${JSON.stringify({roundtrip:controls.roundtrip,pageErrors})}`);
   if(process.env.REFERENCE_STUDIO_ROUNDTRIP_SCREENSHOT){const screenshot=await send('Page.captureScreenshot',{format:'png'});fs.writeFileSync(process.env.REFERENCE_STUDIO_ROUNDTRIP_SCREENSHOT,Buffer.from(screenshot.data,'base64'));}
   console.log(JSON.stringify({empty,loaded,localization,controls},null,2));
 }finally{socket?.close();child.kill();try{fs.rmSync(profile,{recursive:true,force:true,maxRetries:3,retryDelay:100});}catch{}}

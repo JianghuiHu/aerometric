@@ -4,18 +4,19 @@ export class DroneStatusController {
   constructor({ statusField, hover, lights, rotor }) {
     this.statusField=statusField; this.hover=hover; this.lights=lights; this.rotor=rotor;
     this.type='online'; this.manualRotorOverride=false; this.statusDrivenRotor=false;
-    this.config=cloneStatusPreset('online'); this.applyPreset(this.config,true);
+    this.config=cloneStatusPreset('online'); this.config.light.bloomEnabled=true; this.applyPreset(this.config,true);
   }
   setStatus(type) {
     const fieldVisible=this.config.statusField?.visible??this.statusField.mesh.visible;
     const lightVisible=this.config.light?.visible??this.lights.state.visible;
+    const bloomEnabled=this.config.light?.bloomEnabled!==false;
     this.type=type; this.config=cloneStatusPreset(type);
-    this.config.statusField.visible=fieldVisible; this.config.light.visible=lightVisible;
+    this.config.statusField.visible=fieldVisible; this.config.light.visible=lightVisible; this.config.light.bloomEnabled=bloomEnabled;
     this.applyPreset(this.config); return this.getConfig();
   }
   applyConfig(config, immediate=false) {
     const base=cloneStatusPreset(config.type||'online'); this.type=config.type||'online';
-    this.config={...base,light:{...base.light,...config.light},statusField:{...base.statusField,...config.statusField},hover:{...base.hover,...config.hover}};
+    this.config={...base,light:{...base.light,...config.light,bloomEnabled:config.light?.bloomEnabled!==false},statusField:{...base.statusField,...config.statusField},hover:{...base.hover,...config.hover}};
     this.applyPreset(this.config,immediate); return this.getConfig();
   }
   applyPreset(preset, immediate=false) {
@@ -38,6 +39,7 @@ export class DroneStatusController {
   setStatusFieldVisible(visible){this.config.statusField.visible=Boolean(visible);this.statusField.setConfig({visible});}
   setHoverEnabled(enabled){this.config.hover.enabled=Boolean(enabled);this.hover.setConfig(this.config.hover);}
   setLightVisible(visible){this.config.light.visible=Boolean(visible);this.lights.transitionTo({visible},0);}
+  setBloomEnabled(enabled){this.config.light.bloomEnabled=Boolean(enabled);this.lights.setBloomEnabled(this.config.light.bloomEnabled);}
   setManualRotorRunning(running){this.manualRotorOverride=true;this.statusDrivenRotor=false;this.rotor.running=Boolean(running);}
   setManualRotorSpeed(speed){this.manualRotorOverride=true;this.rotor.speed=speed;}
   clearManualRotorOverride(){this.manualRotorOverride=false;}

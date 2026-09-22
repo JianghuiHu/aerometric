@@ -3,7 +3,7 @@ import { STATUS_PRESETS } from './DroneAppearanceConfig.js';
 export class StatusLightController {
   constructor(root,{resolver}={}) {
     this.root = root; this.meshes = []; this.materials = new Map();
-    this.state = { visible: true, color: '#3bafe8', intensity: 2.2 };
+    this.state = { visible: true, color: '#3bafe8', intensity: 2.2, bloomEnabled:true };
     this.current = { color: new THREE.Color('#3bafe8'), intensity: 2.2 };
     this.target = { color: this.current.color.clone(), intensity: 2.2 };
     this.transitionRemaining = 0; this.breathing = false; this.breathingSpeed = 1.2;
@@ -57,8 +57,9 @@ export class StatusLightController {
       m.emissiveIntensity = .6 * intensity * (mesh.userData.light_role === 'front' ? 1 : .75);
     }
   }
-  get bloomStrength() { return this.state.visible ? .16 * this.current.intensity : 0; }
+  get bloomStrength() { return this.state.visible&&this.state.bloomEnabled ? .16 * this.current.intensity : 0; }
+  setBloomEnabled(enabled){this.state.bloomEnabled=Boolean(enabled);}
   get available(){return this.meshes.length>0;}
-  getState() { return { visible: this.state.visible, color: this.state.color, intensity: this.state.intensity }; }
+  getState() { return { visible: this.state.visible, color: this.state.color, intensity: this.state.intensity, bloomEnabled:this.state.bloomEnabled }; }
   dispose() { for (const material of this.materials.values()) material.dispose(); }
 }
