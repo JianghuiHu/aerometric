@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.0 — local release candidate
+## 0.1.0
 
 - Defined Generic, Profile, and Native compatibility levels.
 - Added AEROMETRIC Model Standard 0.1 and DroneProfile JSON Schema.
