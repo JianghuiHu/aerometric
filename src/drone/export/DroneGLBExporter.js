@@ -53,7 +53,7 @@ function addPortableStatusField(root, status = {}) {
   const size = box.getSize(new THREE.Vector3());
   const radius = Math.max(size.x, size.z) * (Number(field.range) || 1.8) * 0.5;
   const y = box.min.y - root.getWorldPosition(new THREE.Vector3()).y - 0.012;
-  const group = new THREE.Group(); group.name = 'PortableStatusField'; group.position.y = y;
+  const group = new THREE.Group(); group.name = 'PortableStatusField'; group.userData.aerometric={role:'effect.statusField'}; group.position.y = y;
   const color = field.color || '#3ba9ff';
   const disc = new THREE.Mesh(new THREE.CircleGeometry(radius * 0.68, 48), makeFieldMaterial(color, Math.min(0.18, (Number(field.intensity) || 0.4) * 0.22)));
   disc.name = 'PortableStatusDisc'; disc.rotation.x = -Math.PI / 2; group.add(disc);

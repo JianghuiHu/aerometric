@@ -23,9 +23,16 @@ for(const file of required)if(!fs.existsSync(path.join(root,file)))fail(`Missing
 const skill=fs.readFileSync(path.join(root,'skills/aerometric-model/SKILL.md'),'utf8');
 if(!/^---\r?\nname: aerometric-model\r?\ndescription: .+\r?\n---/s.test(skill))fail('Invalid skill frontmatter');
 execFileSync(process.execPath,[path.join(root,'scripts/validate-model-library.mjs')],{stdio:'inherit'});
-if(JSON.stringify(readJson('models/index.json'))!==JSON.stringify(JSON.parse(fs.readFileSync(path.join(root,'../../public/models/index.json'),'utf8'))))fail('Release and Studio model library indexes differ');
+const library=readJson('models/index.json');
+if(JSON.stringify(library)!==JSON.stringify(JSON.parse(fs.readFileSync(path.join(root,'../../public/models/index.json'),'utf8'))))fail('Release and Studio model library indexes differ');
+for(const entry of library.models){
+  for(const file of [entry.model,entry.profile,entry.preview,path.join(path.dirname(entry.model),'README.md'),path.join(path.dirname(entry.model),'LICENSE')].filter(Boolean)){
+    const releaseFile=path.join(root,'models',file),studioFile=path.join(root,'../../public/models',file);
+    if(!fs.existsSync(studioFile)||!fs.readFileSync(releaseFile).equals(fs.readFileSync(studioFile)))fail(`Release and Studio model files differ: ${file}`);
+  }
+}
 if(fs.existsSync(path.join(root,'artifacts/blender-helper-smoke/quadrotor-v3-helper.glb')))fail('Unlicensed Quadrotor V3 GLB must not be included in release artifacts');
-const allowedSmoke=new Set(['artifacts/mapping-smoke/generic-drone.glb','artifacts/mapping-smoke/mapped-drone.glb']);
+const allowedSmoke=new Set(['artifacts/mapping-smoke/generic-drone.glb','artifacts/mapping-smoke/mapped-drone.glb',...library.models.map(entry=>`models/${entry.model.replaceAll('\\','/')}`)]);
 function scanGLB(directory){for(const entry of fs.readdirSync(directory,{withFileTypes:true})){const absolute=path.join(directory,entry.name);if(entry.isDirectory())scanGLB(absolute);else if(entry.name.toLowerCase().endsWith('.glb')){const relative=path.relative(root,absolute).replaceAll('\\','/');if(!allowedSmoke.has(relative))fail(`Unexpected model binary in release package: ${relative}`);}}}
 scanGLB(root);
 console.log(`AEROMETRIC 0.1 package valid: ${Object.keys(profile.roles).length} roles, ${required.length} required files`);

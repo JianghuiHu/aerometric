@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import {DroneRoleResolver} from '../profile/DroneRoleResolver.js';
+import {getModelBounds} from '../cameraTools.js';
 
 export class DroneSceneController {
   constructor(sourceScene, { groundY = -0.045, clearance = 0.1, profile=null, resolver=new DroneRoleResolver(sourceScene,{profile}) } = {}) {
@@ -16,7 +17,7 @@ export class DroneSceneController {
     this.positionRoot.add(this.hoverRoot, this.effectRoot);
     this.root.add(this.positionRoot);
 
-    const box = new THREE.Box3().setFromObject(this.modelRoot, true);
+    const box = getModelBounds(this.modelRoot);
     this.modelSize = box.getSize(new THREE.Vector3());
     this.modelCenter = box.getCenter(new THREE.Vector3());
     this.clearance = clearance;
