@@ -31,7 +31,7 @@
 - [x] Add a redistributable preview and official model package after licensing is confirmed.
 - [x] Keep `public/models/drone_v3.glb` outside the public package.
 - [x] Deploy and verify Vercel Preview.
-- [ ] Deploy and verify Production and the official domain.
+- [x] Deploy and verify Production at `aerometric.vercel.app`.
 - [ ] Create and verify the v0.1.0 GitHub Release after deployment checks.
 - [x] Run source CI in the GitHub repository and check host-specific assumptions.
 
