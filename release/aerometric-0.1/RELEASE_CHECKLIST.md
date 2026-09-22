@@ -32,7 +32,7 @@
 - [x] Keep `public/models/drone_v3.glb` outside the public package.
 - [x] Deploy and verify Vercel Preview.
 - [x] Deploy and verify Production at `aerometric.vercel.app`.
-- [ ] Create and verify the v0.1.0 GitHub Release after deployment checks.
+- [x] Create and verify the v0.1.0 GitHub Release after deployment checks.
 - [x] Run source CI in the GitHub repository and check host-specific assumptions.
 
 Do not publish Quadrotor V3 GLB, Blender source, textures, or renders. Their asset license remains unresolved and does not block the CC0 reference model release.

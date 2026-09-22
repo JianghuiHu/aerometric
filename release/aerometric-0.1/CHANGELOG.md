@@ -16,4 +16,4 @@
 - Added the community model contribution checklist and pull request template.
 - Added a metadata-first Community Model Library contract, local-path and license validation, CI catalog checks, and on-demand Studio loading.
 - Added the original CC0 Reference Drone 01 as the first public Community Model Library entry, with a Level 1 Profile, Level 2 glTF extras, and a reproducible model-package ZIP.
-- Added a Studio empty state for installations without a built-in model and verified the Reference Drone's color, visibility, animation, environment, image export, and GLB round trip in a protected Vercel Preview.
+- Added a Studio empty state for installations without a built-in model and verified the Reference Drone's color, visibility, animation, environment, image export, and GLB round trip in Vercel Preview and Production.
