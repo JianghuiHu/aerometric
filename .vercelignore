@@ -1,0 +1,6 @@
+/blender_drone/
+/release/
+/scripts/
+/dist/
+/.github/
+/public/models/*.glb

@@ -22,7 +22,7 @@ export class DroneController {
       o.quaternion.normalize();
       this.defaults.set(o, { quaternion: o.quaternion.clone(), position: o.position.clone() });
     }
-    this.colors = new Map([...this.materials].map(([n, m]) => [n, { color: m.color.clone(), emissive: m.emissive.clone() }]));
+    this.colors = new Map([...this.materials].filter(([,m])=>m.color).map(([n, m]) => [n, { color: m.color.clone(), emissive: m.emissive?.clone() }]));
     this.running = false;
     this.speed = 12;
     this.angles = this.rotors.map(() => 0);
@@ -58,6 +58,6 @@ export class DroneController {
   reset() {
     this.running = false; this.speed = 12; this.angles.fill(0);
     for (const [o, d] of this.defaults) { o.quaternion.copy(d.quaternion); o.position.copy(d.position); }
-    for (const [n, d] of this.colors) { const m = this.materials.get(n); m.color.copy(d.color); m.emissive.copy(d.emissive); }
+    for (const [n, d] of this.colors) { const m = this.materials.get(n); m.color.copy(d.color); if(d.emissive&&m.emissive)m.emissive.copy(d.emissive); }
   }
 }

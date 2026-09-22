@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://aerometric.dev/schema/aerometric-profile-0.1.schema.json",
-  "title": "AEROMETRIC Drone Profile",
+  "title": "AEROMETRIC Drone Profile 0.1",
   "type": "object",
   "additionalProperties": false,
   "required": ["id", "version", "roles"],
@@ -36,4 +36,3 @@
     "metadata": {"type": "object"}
   }
 }
-

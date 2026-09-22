@@ -18,13 +18,21 @@
 - [x] Local Release 0.1 audit completed; see [RELEASE_AUDIT_0.1.md](RELEASE_AUDIT_0.1.md)
 - [x] Local Git source boundary and separate public-deployment gate prepared
 - [x] Source-only `main` pushed to GitHub with Quadrotor V3 excluded; source CI passed
+- [x] Original Reference Drone 01 built from repository Blender script and licensed CC0-1.0
+- [x] Reference Drone 01 validates with Level 1 Profile and Level 2 native extras
+- [x] Community Library contains one licensed official model; local license and package gates pass
+- [x] Reference Drone preparation branch CI and manual public-deployment gate pass on GitHub
+- [x] Protected Vercel Preview loads the official model and passes Studio import/export browser dogfood
+- [x] Reference Drone package ZIP contains only the five licensed package files
 
 ## Required before a public GitHub release
 
-- [ ] Choose and record the Quadrotor V3 model and texture license.
-- [ ] Confirm the project name, repository owner, canonical URL, and copyright holder.
-- [ ] Add a redistributable preview image and model package only after licensing is confirmed.
-- [ ] Remove or replace `public/models/drone_v3.glb` before any public Studio deployment if redistribution rights cannot be confirmed.
+- [x] Confirm AEROMETRIC, `JianghuiHu/aerometric`, `aerometric.vercel.app`, and the repository MIT holder string `AEROMETRIC contributors`.
+- [x] Add a redistributable preview and official model package after licensing is confirmed.
+- [x] Keep `public/models/drone_v3.glb` outside the public package.
+- [x] Deploy and verify Vercel Preview.
+- [ ] Deploy and verify Production and the official domain.
+- [ ] Create and verify the v0.1.0 GitHub Release after deployment checks.
 - [x] Run source CI in the GitHub repository and check host-specific assumptions.
 
-Do not publish the current GLB, Blender source, textures, or renders as MIT-licensed software. Their asset license remains unresolved.
+Do not publish Quadrotor V3 GLB, Blender source, textures, or renders. Their asset license remains unresolved and does not block the CC0 reference model release.

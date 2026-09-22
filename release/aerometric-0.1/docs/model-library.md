@@ -4,7 +4,7 @@
 
 Each entry contains `id`, `name`, `author`, `type`, compatibility level, local `model` and `preview` paths, an optional Level 1 `profile`, an explicit asset `license`, and `redistributable: true`. The model directory must also contain a non-empty `LICENSE` covering the model, textures, and preview. Paths are relative to `models/index.json`; remote URLs and parent-directory traversal are rejected.
 
-The catalog intentionally remains empty until a model and its textures have confirmed redistribution terms. Adding an entry requires the complete package described in `models/_template`, a passing CLI validation, and a successful library-index validation:
+The catalog contains one official entry, Reference Drone 01, with a CC0-1.0 package license. Adding another entry requires the complete package described in `models/_template`, a passing CLI validation, and a successful library-index validation:
 
 ```bash
 node scripts/validate-model-library.mjs
