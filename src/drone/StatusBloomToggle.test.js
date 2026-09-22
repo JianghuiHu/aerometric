@@ -20,6 +20,11 @@ test('Bloom can be disabled independently of the LED meshes and survives status 
   assert.equal(status.getConfig().light.bloomEnabled,false);
   status.setBloomEnabled(true);
   assert.ok(adapter.lights.bloomStrength>0);
+  status.setStatus('warning');
+  assert.equal(adapter.lights.breathing,true);
+  status.setBloomEnabled(false);
+  assert.equal(adapter.lights.breathing,true,'Bloom switch must not stop the warning pulse');
+  status.setBloomEnabled(true);
   status.setLightVisible(false);
   assert.equal(adapter.lights.bloomStrength,0);
   status.dispose();adapter.dispose();

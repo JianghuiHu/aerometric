@@ -58,7 +58,8 @@ export class StatusLightController {
     }
   }
   get bloomStrength() { return this.state.visible&&this.state.bloomEnabled ? .16 * this.current.intensity : 0; }
+  setBloomEnabled(enabled){this.state.bloomEnabled=Boolean(enabled);}
   get available(){return this.meshes.length>0;}
-  getState() { return { visible: this.state.visible, color: this.state.color, intensity: this.state.intensity }; }
+  getState() { return { visible: this.state.visible, color: this.state.color, intensity: this.state.intensity, bloomEnabled:this.state.bloomEnabled }; }
   dispose() { for (const material of this.materials.values()) material.dispose(); }
 }

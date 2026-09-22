@@ -92,7 +92,7 @@ test('有合法 UV 时贴图可替换，旧贴图和清除贴图都会释放资�
 test('状态灯支持显隐、颜色、强度和 Bloom 分层标记', () => {
   adapter.lights.set({ visible: false, color: '#f54b55', intensity: 4 });
   const state = adapter.lights.getState();
-  assert.deepEqual(state, { visible: false, color: '#f54b55', intensity: 4 });
+  assert.deepEqual(state, { visible: false, color: '#f54b55', intensity: 4, bloomEnabled: true });
   for (const mesh of adapter.lights.meshes) {
     assert.equal(mesh.userData.bloom, true);
     assert.equal(mesh.layers.isEnabled(1), true);
@@ -114,7 +114,7 @@ test('恢复默认覆盖全部运行时配置且不替换模型实例', () => {
   assert.equal(controller.speed, 12);
   assert.equal(adapter.isPartVisible('landingGear'), true);
   assert.equal(adapter.getPartColor('camera'), config.appearance.camera.color);
-  assert.deepEqual(adapter.lights.getState(), { visible: true, color: '#3ba9ff', intensity: 2 });
+  assert.deepEqual(adapter.lights.getState(), { visible: true, color: '#3ba9ff', intensity: 2, bloomEnabled: true });
   for (const angle of controller.angles) assert.equal(angle, 0);
 });
 
