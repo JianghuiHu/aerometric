@@ -21,6 +21,7 @@
 - [x] Original Reference Drone 01 built from repository Blender script and licensed CC0-1.0
 - [x] Reference Drone 01 validates with Level 1 Profile and Level 2 native extras
 - [x] Community Library contains one licensed official model; local license and package gates pass
+- [x] Reference Drone preparation branch CI and manual public-deployment gate pass on GitHub
 
 ## Required before a public GitHub release
 
