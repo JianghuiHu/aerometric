@@ -27,3 +27,7 @@ Same host, viewport, Headless Chrome, and DPR 1.5; values are averages over the 
 | V3 / on | 12.3 | 56.8 | 81.2 | 17.6 | 891 | 403 | 177 / 79,708 |
 
 The optimized V3 with Bloom on renders about 175,540 triangles per frame including shadows and passes, versus 390,855 before. StatusField, GroundWorld, and rain isolation results are in `performance-final-v3-dpr15.json`; none accounts for the original ~69 ms Bloom penalty. Since source geometry and model materials are unchanged, image sharpness of the drone itself is preserved; the LED glow is deliberately softer at half resolution. This is a local comparative result, not a guaranteed FPS for every visitor.
+
+## v0.1.1 presentation update
+
+The v0.1.1 repository and product-presentation work does not change the measured render path, model geometry, Bloom resolution, shadow settings, or realtime DPR cap. It adds two small header icons and bilingual repository documentation. The candidate production build keeps Bloom in its separately loaded 19.86 KB chunk and the shared Three.js chunk at 552.10 KB uncompressed. The table above remains the current controlled comparison; no new FPS claim is inferred from the documentation-only changes.

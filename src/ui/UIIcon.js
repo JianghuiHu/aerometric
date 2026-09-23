@@ -22,6 +22,8 @@ import right from '@tabler/icons/outline/arrow-right.svg?raw';
 import perspective from '@tabler/icons/outline/cube-3d-sphere.svg?raw';
 import drone from '@tabler/icons/outline/drone.svg?raw';
 import propeller from '@tabler/icons/outline/propeller.svg?raw';
+import github from '@tabler/icons/outline/brand-github.svg?raw';
+import book from '@tabler/icons/outline/book-2.svg?raw';
 
-const ICONS={activity,palette,radar,mountain,download,focus,refresh,sun,rain,moon,swatch,eye,navigation,photo,box,play,stop,up,down,left,right,perspective,drone,propeller};
+const ICONS={activity,palette,radar,mountain,download,focus,refresh,sun,rain,moon,swatch,eye,navigation,photo,box,play,stop,up,down,left,right,perspective,drone,propeller,github,book};
 export function UIIcon(name,{label='',size=18}={}){const svg=ICONS[name]||ICONS.box;return svg.replace('<svg ',`<svg width="${size}" height="${size}" stroke-width="1.8" ${label?`role="img" aria-label="${label}"`:'aria-hidden="true"'} `);}
